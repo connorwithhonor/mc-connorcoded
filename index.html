@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MCP | Master Control Program | Connor with Honor</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2300d4ff'/%3E%3Cpath d='M8 16l5 5 11-11' stroke='%23000' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<title>M.C.P | Master Control Program | Connor with Honor</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%2300d4ff'/%3E%3Cpath d='M16 6v20M6 16h20' stroke='%23000' stroke-width='2.5' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%23ffc845'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;800&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -20,13 +20,13 @@
   --red-dim: #881122;
   --green: #33ff88;
   --green-dim: #116633;
+  --purple: #b967ff;
+  --purple-dim: #5a2a7a;
   --white: #f5f7fa;
   --gray: #5a6878;
   --gray-dim: #2a3340;
 }
-
 * { margin: 0; padding: 0; box-sizing: border-box; }
-
 html, body {
   background: var(--bg);
   color: var(--white);
@@ -35,6 +35,7 @@ html, body {
   min-height: 100vh;
 }
 
+/* GRID BACKGROUND */
 body::before {
   content: '';
   position: fixed;
@@ -47,6 +48,35 @@ body::before {
   z-index: 0;
 }
 
+/* TRON SCAN LINE (vertical sweep) */
+body::after {
+  content: '';
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(0,212,255,0) 5%,
+    rgba(0,212,255,0.7) 50%,
+    rgba(0,212,255,0) 95%,
+    transparent 100%);
+  box-shadow: 0 0 20px rgba(0,212,255,0.6), 0 0 40px rgba(0,212,255,0.3);
+  z-index: 9998;
+  pointer-events: none;
+  animation: scanline 12s linear infinite;
+  top: -2px;
+}
+@keyframes scanline {
+  0% { top: -2%; opacity: 0; }
+  5% { opacity: 1; }
+  50% { top: 100%; opacity: 1; }
+  55% { top: 100%; opacity: 0; }
+  56% { top: -2%; opacity: 0; }
+  60% { opacity: 1; }
+  100% { top: 100%; opacity: 1; }
+}
+
 .wrap {
   position: relative;
   z-index: 1;
@@ -57,8 +87,8 @@ body::before {
 /* HEADER STRIP */
 .header {
   display: grid;
-  grid-template-columns: auto 1fr auto auto auto;
-  gap: 32px;
+  grid-template-columns: auto 1fr auto auto auto auto;
+  gap: 24px;
   align-items: center;
   padding: 16px 24px;
   background: linear-gradient(90deg, rgba(0,212,255,0.08), rgba(255,200,69,0.04));
@@ -84,29 +114,65 @@ body::before {
   display: block;
   margin-top: -4px;
 }
-
 .timestamp {
   font-size: 13px;
   color: var(--gray);
   letter-spacing: 1px;
 }
 
+.claude-light {
+  position: relative;
+  padding: 8px 14px 8px 28px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--gray-dim);
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--gray);
+  transition: all 0.2s;
+}
+.claude-light::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gray);
+  transition: all 0.3s;
+}
+.claude-light.has-message {
+  border-color: var(--red);
+  color: var(--red);
+  animation: soft-pulse 2s ease-in-out infinite;
+}
+.claude-light.has-message::before {
+  background: var(--red);
+  box-shadow: 0 0 12px var(--red), 0 0 24px var(--red);
+}
+@keyframes soft-pulse {
+  0%, 100% { box-shadow: 0 0 0 rgba(255,51,85,0); }
+  50% { box-shadow: 0 0 12px rgba(255,51,85,0.3); }
+}
+.claude-light:hover { color: var(--white); border-color: var(--cyan-dim); }
+
 .stat {
   text-align: center;
-  padding: 0 20px;
+  padding: 0 18px;
   border-left: 1px solid var(--gray-dim);
 }
 .stat-label { font-size: 10px; color: var(--gray); letter-spacing: 2px; margin-bottom: 4px; }
 .stat-value { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: var(--white); }
 .stat-value.gold { color: var(--gold); text-shadow: 0 0 12px rgba(255,200,69,0.4); }
-.stat-value.red { color: var(--red); }
 .stat-value.green { color: var(--green); }
 
-/* MAIN GRID */
+/* GRID */
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto auto auto;
   gap: 16px;
 }
 
@@ -117,18 +183,19 @@ body::before {
   gap: 16px;
   margin-top: 8px;
   font-family: 'Oswald', sans-serif;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   letter-spacing: 4px;
   color: var(--cyan);
   text-transform: uppercase;
 }
-.section-label::before,
-.section-label::after {
+.section-label.opportunity { color: var(--purple); }
+.section-label::before, .section-label::after {
   content: '';
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--cyan-dim), transparent);
+  background: linear-gradient(90deg, transparent, currentColor, transparent);
+  opacity: 0.4;
 }
 
 /* LANE CARDS */
@@ -140,6 +207,7 @@ body::before {
   position: relative;
   transition: all 0.2s;
   overflow: hidden;
+  cursor: pointer;
 }
 .lane::before {
   content: '';
@@ -150,12 +218,21 @@ body::before {
   width: 3px;
   background: var(--gray);
 }
-.lane:hover { background: var(--bg-card-hi); border-color: var(--cyan-dim); }
+.lane:hover { background: var(--bg-card-hi); border-color: var(--cyan-dim); transform: translateY(-1px); }
 
 .lane.shipping::before { background: var(--green); box-shadow: 0 0 12px var(--green); }
 .lane.building::before { background: var(--cyan); box-shadow: 0 0 12px var(--cyan); }
 .lane.stalled::before { background: var(--gold); box-shadow: 0 0 12px var(--gold); }
 .lane.idea::before { background: var(--red); box-shadow: 0 0 12px var(--red); }
+.lane.opportunity::before { background: var(--purple); box-shadow: 0 0 12px var(--purple); }
+
+.lane.attention-pulse {
+  animation: lane-pulse 2.5s ease-in-out;
+}
+@keyframes lane-pulse {
+  0%, 100% { box-shadow: none; border-color: var(--gray-dim); }
+  50% { box-shadow: 0 0 32px rgba(0,212,255,0.4); border-color: var(--cyan); }
+}
 
 .lane-head {
   display: flex;
@@ -165,7 +242,7 @@ body::before {
 }
 .lane-name {
   font-family: 'Oswald', sans-serif;
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: 1px;
   color: var(--white);
@@ -183,15 +260,25 @@ body::before {
 .lane.building .lane-status { background: var(--cyan-dim); color: var(--cyan); }
 .lane.stalled .lane-status { background: var(--gold-dim); color: var(--gold); }
 .lane.idea .lane-status { background: var(--red-dim); color: var(--red); }
+.lane.opportunity .lane-status { background: var(--purple-dim); color: var(--purple); }
+
+.note-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  margin-left: 6px;
+  vertical-align: middle;
+  box-shadow: 0 0 6px var(--gold);
+}
 
 .lane-state {
   font-size: 12px;
   color: var(--gray);
   line-height: 1.5;
   margin-bottom: 12px;
-  min-height: 36px;
 }
-
 .lane-move {
   background: rgba(0,0,0,0.3);
   border-left: 2px solid var(--cyan);
@@ -209,6 +296,8 @@ body::before {
   margin-bottom: 4px;
   font-weight: 600;
 }
+.lane.opportunity .lane-move { border-left-color: var(--purple); }
+.lane.opportunity .lane-move b { color: var(--purple); }
 
 .lane-money {
   display: flex;
@@ -231,7 +320,17 @@ body::before {
   text-transform: uppercase;
 }
 
-/* TODAY FOCUS */
+.lane-expand-hint {
+  position: absolute;
+  bottom: 4px;
+  right: 8px;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--gray-dim);
+  pointer-events: none;
+}
+
+/* TODAY PANEL */
 .today-panel {
   grid-column: 1 / -1;
   background: linear-gradient(135deg, rgba(255,51,85,0.08), rgba(255,200,69,0.04));
@@ -273,7 +372,7 @@ body::before {
   margin-bottom: 4px;
 }
 
-/* QUICK LINKS */
+/* LINKS */
 .links {
   grid-column: 1 / -1;
   display: flex;
@@ -300,24 +399,143 @@ body::before {
   box-shadow: 0 0 12px rgba(0,212,255,0.3);
 }
 
-/* Pulse */
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+/* MODAL (lane notes) */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 40px;
 }
-.lane.shipping::before { animation: pulse 3s ease-in-out infinite; }
-
-/* LARGE SCREEN OPTIMIZATION */
-@media (min-width: 2000px) {
-  .wrap { padding: 32px 48px; max-width: 2400px; margin: 0 auto; }
-  .brand { font-size: 36px; }
-  .stat-value { font-size: 28px; }
-  .lane-name { font-size: 22px; }
-  .lane-state { font-size: 13px; }
-  .lane-move { font-size: 13px; }
+.modal-backdrop.open { display: flex; }
+.modal {
+  background: var(--bg-card);
+  border: 1px solid var(--cyan-dim);
+  border-radius: 2px;
+  box-shadow: 0 0 80px rgba(0,212,255,0.2);
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
+.modal-head {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--gray-dim);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, rgba(0,212,255,0.06), transparent);
+}
+.modal-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: 20px;
+  letter-spacing: 2px;
+  color: var(--cyan);
+  text-transform: uppercase;
+}
+.modal-close {
+  background: transparent;
+  border: 1px solid var(--gray-dim);
+  color: var(--gray);
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+.modal-close:hover { background: var(--red-dim); color: var(--red); border-color: var(--red); }
+.modal-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+.notes-list {
+  max-height: 50vh;
+  overflow-y: auto;
+  margin-bottom: 16px;
+  padding-right: 8px;
+}
+.note-entry {
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  background: rgba(0,0,0,0.3);
+  border-left: 2px solid var(--cyan);
+  border-radius: 2px;
+}
+.note-entry.claude {
+  border-left-color: var(--red);
+  background: rgba(255,51,85,0.05);
+}
+.note-entry-meta {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--gray);
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+.note-entry.claude .note-entry-meta { color: var(--red); }
+.note-entry-body {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--white);
+  white-space: pre-wrap;
+}
+.note-input-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.note-input-wrap textarea {
+  width: 100%;
+  min-height: 90px;
+  background: var(--bg);
+  border: 1px solid var(--cyan-dim);
+  color: var(--white);
+  padding: 12px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  border-radius: 2px;
+  resize: vertical;
+  outline: none;
+}
+.note-input-wrap textarea:focus { border-color: var(--cyan); box-shadow: 0 0 12px rgba(0,212,255,0.2); }
+.note-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+.btn {
+  padding: 8px 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.2s;
+  text-transform: uppercase;
+}
+.btn-primary {
+  background: var(--cyan-dim);
+  color: var(--white);
+  border: 1px solid var(--cyan);
+}
+.btn-primary:hover { background: var(--cyan); color: var(--bg); box-shadow: 0 0 16px rgba(0,212,255,0.5); }
+.btn-secondary {
+  background: transparent;
+  color: var(--gray);
+  border: 1px solid var(--gray-dim);
+}
+.btn-secondary:hover { color: var(--white); border-color: var(--gray); }
 
-/* Footer */
 .footer {
   margin-top: 20px;
   padding: 12px 0;
@@ -326,6 +544,16 @@ body::before {
   color: var(--gray);
   letter-spacing: 3px;
 }
+.footer .mcp-tag { color: var(--cyan); }
+
+@media (min-width: 2000px) {
+  .wrap { padding: 32px 48px; max-width: 2400px; margin: 0 auto; }
+  .brand { font-size: 36px; }
+  .stat-value { font-size: 28px; }
+  .lane-name { font-size: 21px; }
+  .lane-state { font-size: 13px; }
+  .lane-move { font-size: 13px; }
+}
 </style>
 </head>
 <body>
@@ -333,7 +561,8 @@ body::before {
 
 <div class="header">
   <div class="brand">M.C.P<small>MASTER CONTROL PROGRAM / CONNOR WITH HONOR</small></div>
-  <div class="timestamp" id="clock">APRIL 16, 2026 | 09:18 PT | DAY 31</div>
+  <div class="timestamp" id="clock">LOADING</div>
+  <div class="claude-light" id="claudeLight" onclick="openClaudeMessages()">CLAUDE: 0</div>
   <div class="stat">
     <div class="stat-label">WEIGHT</div>
     <div class="stat-value">303.4</div>
@@ -344,60 +573,59 @@ body::before {
   </div>
   <div class="stat">
     <div class="stat-label">LAUNCH DAY</div>
-    <div class="stat-value green">+32</div>
+    <div class="stat-value green" id="launchCounter">+32</div>
   </div>
 </div>
 
 <div class="grid">
 
-<!-- TODAY PANEL -->
 <div class="today-panel">
   <div class="today-head"><h2>TODAY. SHIP THIS.</h2></div>
   <div class="today-items">
     <div class="today-item">
       <b>ONE</b>
-      Finalize HonorElevate outbound. Research top GHL YouTubers. Build the gap. Line up 20 HVAC prospects in SCV.
+      HonorElevate outbound. Competitor research done. Next: build first 10 Trojan horse demo pages for SCV HVAC prospects. Sarah voice agent trained per prospect.
     </div>
     <div class="today-item">
       <b>TWO</b>
-      Ship SellersOnlyAgent. Find the blocker. Kill it. Push the page live.
+      Dashboard MCP v2 LIVE. Notes per lane. Red light from Claude. Opportunity Radar seeded. SCV123 campaign reframe baked in.
     </div>
     <div class="today-item">
       <b>THREE</b>
-      Day 31 Connor's Cut. Weight, page, blog, social. Before anything else rolls.
+      Day 31 Connor's Cut. Weight, page, blog, social. Delvin KB update. Push TLA after.
     </div>
   </div>
 </div>
 
-<!-- REVENUE LANES -->
 <div class="section-label">Revenue Lanes</div>
 
-<div class="lane building">
+<div class="lane building" data-lane="scv123">
   <div class="lane-head">
     <div>
-      <div class="lane-name">SCV123 Campaign</div>
+      <div class="lane-name">SCV123 Campaign<span class="note-dot" style="display:none"></span></div>
       <div class="lane-status">PRIMARY CONSUMER PLAY</div>
     </div>
   </div>
-  <div class="lane-state">"Selling your house is as easy as SCV 123." Community subdomains (bridgeport, valencia, summit, creekside) are XpressDocs landing pages.</div>
+  <div class="lane-state">"Selling your house is as easy as SCV 123." Community subdomains (bridgeport, valencia, more coming) are XpressDocs mailer landing pages.</div>
   <div class="lane-move">
     <b>NEXT MOVE</b>
-    Build each community subdomain as its own mailer landing page. XpressDocs send funnels to the right community URL. Lead captured goes straight to HonorElevate nurture.
+    Build remaining community subdomains (summit, creekside, etc.). Each mailer funnels to its community page. HonorElevate nurture catches the lead.
   </div>
   <div class="lane-money">
     <div class="lane-money-label">Feeds Every Listing</div>
     <div class="lane-money-val">$17K deals</div>
   </div>
+  <div class="lane-expand-hint">CLICK TO NOTE</div>
 </div>
 
-<div class="lane shipping">
+<div class="lane shipping" data-lane="seventeenk">
   <div class="lane-head">
     <div>
-      <div class="lane-name">SeventeenK (Proof)</div>
+      <div class="lane-name">SeventeenK (Proof)<span class="note-dot" style="display:none"></span></div>
       <div class="lane-status">STEALTH. REVEAL 5/17</div>
     </div>
   </div>
-  <div class="lane-state">Fixed fee of $17,000 (never "flat" — "fixed"). Verifiable pricing receipt. Supports SCV123 + SOA, not the hook.</div>
+  <div class="lane-state">Fixed fee of $17,000. Not "flat." "Fixed." Verifiable pricing receipt. Supports SCV123 + SOA, never the hook.</div>
   <div class="lane-move">
     <b>NEXT MOVE</b>
     Build 30 stealth content pieces. #SeventeenK only. No listings, no numbers, no RE words. Curiosity engine until 5/17.
@@ -406,207 +634,331 @@ body::before {
     <div class="lane-money-label">Per Deal</div>
     <div class="lane-money-val">$17,000 fixed</div>
   </div>
+  <div class="lane-expand-hint">CLICK TO NOTE</div>
 </div>
 
-<div class="lane building">
+<div class="lane shipping" data-lane="soa">
   <div class="lane-head">
     <div>
-      <div class="lane-name">HonorElevate</div>
-      <div class="lane-status">BUILDING OUTBOUND</div>
-    </div>
-  </div>
-  <div class="lane-state">White-label SaaS. AI voice agent, CRM, funnels. HVAC blitz ready. Sarah voice agent built.</div>
-  <div class="lane-move">
-    <b>NEXT MOVE</b>
-    Today. Research top 10 GHL YouTubers. Study the gaps. Build the free offering. Line up 20 HVAC prospects.
-  </div>
-  <div class="lane-money">
-    <div class="lane-money-label">Per Client MRR</div>
-    <div class="lane-money-val">$297+</div>
-  </div>
-</div>
-
-<div class="lane building">
-  <div class="lane-head">
-    <div>
-      <div class="lane-name">HireAIVoice</div>
-      <div class="lane-status">BUILT. NEEDS OUTBOUND</div>
-    </div>
-  </div>
-  <div class="lane-state">Voice AI service. $497 setup + $197/mo. Sarah is the core agent. Demo live at scvbots.com.</div>
-  <div class="lane-move">
-    <b>NEXT MOVE</b>
-    Bundle with HonorElevate attack. Never sell standalone. Send demo links to every HVAC lead.
-  </div>
-  <div class="lane-money">
-    <div class="lane-money-label">Per Client</div>
-    <div class="lane-money-val">$497+$197/mo</div>
-  </div>
-</div>
-
-<div class="lane shipping">
-  <div class="lane-head">
-    <div>
-      <div class="lane-name">SOA (Positioning)</div>
+      <div class="lane-name">SOA (Positioning)<span class="note-dot" style="display:none"></span></div>
       <div class="lane-status">SHIPPED 4/16</div>
     </div>
   </div>
-  <div class="lane-state">Authority position. When XpressDocs recipient sees "sellers only agent" they click and confirm. Dead email fixed. Em dashes killed. OG cleaned.</div>
+  <div class="lane-state">Authority position. Dead email fixed. Em dashes killed. OG cleaned. Booking wired to HonorElevate calendar.</div>
   <div class="lane-move">
     <b>NEXT MOVE</b>
-    Link every SCV123 community page to SOA as the "who is this guy" click. Add SOA URL to every YouTube description. Paid Meta layer via Mike Meena.
+    Cross-link from each SCV123 community page. Add SOA URL to every YouTube description. Paid Meta layer via Mike Meena.
   </div>
   <div class="lane-money">
     <div class="lane-money-label">Authority Engine</div>
     <div class="lane-money-val">Drives SCV123</div>
   </div>
+  <div class="lane-expand-hint">CLICK TO NOTE</div>
 </div>
 
-<div class="lane shipping">
+<div class="lane building" data-lane="honorelevate">
   <div class="lane-head">
     <div>
-      <div class="lane-name">TheLastAddiction</div>
+      <div class="lane-name">HonorElevate<span class="note-dot" style="display:none"></span></div>
+      <div class="lane-status">ATTACK WEEK 1</div>
+    </div>
+  </div>
+  <div class="lane-state">White-label SaaS. Pricing anchor: $697/mo Growth. $1,497/mo Dominate with Sarah voice. Competitor research done.</div>
+  <div class="lane-move">
+    <b>NEXT MOVE</b>
+    Build first 10 Trojan horse demo pages for SCV HVAC. Warm send domain (mail.honorelevate.com). Ship email 1 at 30 prospects/day.
+  </div>
+  <div class="lane-money">
+    <div class="lane-money-label">Growth Tier MRR</div>
+    <div class="lane-money-val">$697/mo anchor</div>
+  </div>
+  <div class="lane-expand-hint">CLICK TO NOTE</div>
+</div>
+
+<div class="lane building" data-lane="hireaivoice">
+  <div class="lane-head">
+    <div>
+      <div class="lane-name">HireAIVoice<span class="note-dot" style="display:none"></span></div>
+      <div class="lane-status">BUNDLED IN DOMINATE TIER</div>
+    </div>
+  </div>
+  <div class="lane-state">Voice AI service. Sarah is core agent. Demo at scvbots.com. Never sold standalone per skill rules.</div>
+  <div class="lane-move">
+    <b>NEXT MOVE</b>
+    Lives inside Dominate tier. Build prospect-specific Sarah knowledge bases as part of demo page flow.
+  </div>
+  <div class="lane-money">
+    <div class="lane-money-label">Bundle Anchor</div>
+    <div class="lane-money-val">$1,497/mo</div>
+  </div>
+  <div class="lane-expand-hint">CLICK TO NOTE</div>
+</div>
+
+<div class="lane shipping" data-lane="tla">
+  <div class="lane-head">
+    <div>
+      <div class="lane-name">TheLastAddiction<span class="note-dot" style="display:none"></span></div>
       <div class="lane-status">SHIPPING DAILY</div>
     </div>
   </div>
   <div class="lane-state">63-day war journal. Day 31 today. Fast 4 Day 3. 14 blog posts. Delvin widget live. Monetize 5/18.</div>
   <div class="lane-move">
     <b>NEXT MOVE</b>
-    Day 31 content. Weight log, day page, blog, social package. Delvin KB update. Cross-link new post.
+    Day 31 weight log, day page, blog, social package. Delvin KB update. Cross-link from new post to 3 existing.
   </div>
   <div class="lane-money">
     <div class="lane-money-label">Launch 5/18</div>
     <div class="lane-money-val">$47/mo + $497</div>
   </div>
+  <div class="lane-expand-hint">CLICK TO NOTE</div>
 </div>
 
-<div class="lane building">
+<div class="lane building" data-lane="shosafe">
   <div class="lane-head">
     <div>
-      <div class="lane-name">ShoSafe</div>
+      <div class="lane-name">ShoSafe<span class="note-dot" style="display:none"></span></div>
       <div class="lane-status">MVP DESIGN PHASE</div>
     </div>
   </div>
-  <div class="lane-state">Open house visitor verification. Marketing site live. Formspree still placeholder. Full product vision documented.</div>
+  <div class="lane-state">Open house visitor verification. Marketing site live. Formspree still placeholder. Full vision locked in palace.</div>
   <div class="lane-move">
     <b>NEXT MOVE</b>
-    Fix Formspree ID. Film 5-video series. Launch on NAR Safety Month (September).
+    Fix Formspree ID. Film 5-video series. Launch on NAR Safety Month (September). ReRun after TLA 5/18.
   </div>
   <div class="lane-money">
     <div class="lane-money-label">Tiers</div>
     <div class="lane-money-val">$29-149/mo</div>
   </div>
+  <div class="lane-expand-hint">CLICK TO NOTE</div>
 </div>
 
-<div class="lane shipping">
+<div class="lane shipping" data-lane="dailydownload">
   <div class="lane-head">
     <div>
-      <div class="lane-name">Daily Download</div>
+      <div class="lane-name">Daily Download<span class="note-dot" style="display:none"></span></div>
       <div class="lane-status">SHIPPING DAILY</div>
     </div>
   </div>
-  <div class="lane-state">AI news show. 3K-word teleprompter. Trinity structure: fat loss / AI / real estate. Builds authority.</div>
+  <div class="lane-state">AI news show. 3K teleprompter. Trinity structure: fat loss / AI / real estate. Builds authority that feeds everything.</div>
   <div class="lane-move">
     <b>NEXT MOVE</b>
-    Today's teleprompter. Stories from AI-Intel Gmail label. Always close with "AI for everyone. Not just the wealthy."
+    Today's teleprompter. Stories from AI-Intel Gmail label. Close with "AI for everyone. Not just the wealthy."
   </div>
   <div class="lane-money">
-    <div class="lane-money-label">Authority</div>
-    <div class="lane-money-val">Attention = $</div>
+    <div class="lane-money-label">Attention</div>
+    <div class="lane-money-val">Powers All Lanes</div>
   </div>
+  <div class="lane-expand-hint">CLICK TO NOTE</div>
 </div>
 
-<div class="lane building">
+<div class="lane building" data-lane="withheart">
   <div class="lane-head">
     <div>
-      <div class="lane-name">WithHeart / Talie</div>
-      <div class="lane-status">WAITING ON APPROVAL</div>
+      <div class="lane-name">WithHeart (Talie)<span class="note-dot" style="display:none"></span></div>
+      <div class="lane-status">PENDING APPROVAL</div>
     </div>
   </div>
-  <div class="lane-state">Sandbox deployed with 4 changes. Email draft ready. Stripe page updated. Talie replied yesterday with green light on notes.</div>
+  <div class="lane-state">Sandbox deployed with 4 changes. Email draft ready in Gmail. Stripe page updated. Friday weekly analytics due.</div>
   <div class="lane-move">
     <b>NEXT MOVE</b>
-    Send the email reply. When Talie approves, push sandbox to live. Friday weekly analytics report due.
+    Send the email reply. When Talie approves, push sandbox to live. Draft Friday analytics Thursday night.
   </div>
   <div class="lane-money">
     <div class="lane-money-label">Client Retainer</div>
     <div class="lane-money-val">Active</div>
   </div>
+  <div class="lane-expand-hint">CLICK TO NOTE</div>
 </div>
 
-<div class="lane stalled">
+<div class="lane stalled" data-lane="scvreviews">
   <div class="lane-head">
     <div>
-      <div class="lane-name">SCVReviews</div>
-      <div class="lane-status">READY TO ATTACK</div>
+      <div class="lane-name">SCVReviews<span class="note-dot" style="display:none"></span></div>
+      <div class="lane-status">MIRRORS HE ATTACK</div>
     </div>
   </div>
-  <div class="lane-state">Reputation management B2B. Dental offices first vertical. Pricing locked. Site live. Not yet shipping clients.</div>
+  <div class="lane-state">Reputation management B2B. Dental first vertical. Pricing locked. Site live. Mirrors HonorElevate attack with different offer.</div>
   <div class="lane-move">
     <b>NEXT MOVE</b>
-    Piggyback the HonorElevate HVAC attack. Same outbound, different offer. Dental Tuesday, HVAC Monday.
+    Clone the Trojan horse demo flow for dental. Tuesday dental, Monday HVAC. Same Sarah, different KB.
   </div>
   <div class="lane-money">
     <div class="lane-money-label">Full Automation</div>
     <div class="lane-money-val">$497/mo</div>
   </div>
+  <div class="lane-expand-hint">CLICK TO NOTE</div>
 </div>
 
-<div class="lane building">
+<div class="lane building" data-lane="aips">
   <div class="lane-head">
     <div>
-      <div class="lane-name">AIPropertySite</div>
+      <div class="lane-name">AIPropertySite<span class="note-dot" style="display:none"></span></div>
       <div class="lane-status">TROJAN HORSE</div>
     </div>
   </div>
-  <div class="lane-state">5 themes (Victoria, Aria, Grace, Rex, Kai). $297 one-time + $97/mo after 90 days. Feeds HonorElevate retainers.</div>
+  <div class="lane-state">5 themes: Victoria, Aria, Grace, Rex, Kai. $297 + $97/mo after 90 days. Feeds HonorElevate retainers.</div>
   <div class="lane-move">
     <b>NEXT MOVE</b>
-    Wire to SCV123 Bridgeport campaign. Every XpressDocs recipient gets theme-matched landing page.
+    Wire to SCV123 community pages. Every XpressDocs recipient with a property inquiry gets a theme-matched AIPS preview.
   </div>
   <div class="lane-money">
     <div class="lane-money-label">Entry</div>
     <div class="lane-money-val">$297 + $97/mo</div>
   </div>
+  <div class="lane-expand-hint">CLICK TO NOTE</div>
 </div>
 
-<div class="lane stalled">
+<div class="lane stalled" data-lane="ticketwhisperer">
   <div class="lane-head">
     <div>
-      <div class="lane-name">Ticket Whisperer</div>
-      <div class="lane-status">550K VIEWS. NO MONETIZE</div>
+      <div class="lane-name">Ticket Whisperer<span class="note-dot" style="display:none"></span></div>
+      <div class="lane-status">550K VIEWS UNCAPTURED</div>
     </div>
   </div>
-  <div class="lane-state">YouTube channel with traction. Sergeant Joe Friday AI. No product behind it yet.</div>
+  <div class="lane-state">YouTube channel with traction. Sergeant Joe Friday AI. No product behind it yet. Money sitting on the table.</div>
   <div class="lane-move">
     <b>NEXT MOVE</b>
-    Tier 2 content cadence. Add "How-I'd-Fight-It" PDF lead magnet. Then HonorElevate CRM in background.
+    Lead magnet PDF "How I Would Fight It." Opt-in to HonorElevate CRM. Weekly Shorts cadence. Sergeant Joe Friday voice bot in GHL.
   </div>
   <div class="lane-money">
     <div class="lane-money-label">Untapped</div>
     <div class="lane-money-val">Ad + Lead Mag</div>
   </div>
+  <div class="lane-expand-hint">CLICK TO NOTE</div>
 </div>
 
-<div class="lane idea">
+<div class="lane idea" data-lane="zoneshift">
   <div class="lane-head">
     <div>
-      <div class="lane-name">ZoneShift</div>
+      <div class="lane-name">ZoneShift<span class="note-dot" style="display:none"></span></div>
       <div class="lane-status">RETURN 4/20</div>
     </div>
   </div>
   <div class="lane-state">Timezone calendar app concept. Marketing site live. Founder conversation resumes 4/20/26.</div>
   <div class="lane-move">
     <b>NEXT MOVE</b>
-    Park until 4/20 meeting. Revisit monetization model. Don't invest energy before.
+    Park until 4/20 meeting. Don't invest energy before.
   </div>
   <div class="lane-money">
     <div class="lane-money-label">TBD</div>
     <div class="lane-money-val">Consumer SaaS</div>
   </div>
+  <div class="lane-expand-hint">CLICK TO NOTE</div>
 </div>
 
-<!-- QUICK LINKS -->
+<!-- OPPORTUNITY RADAR -->
+<div class="section-label opportunity">Opportunity Radar — Market Gaps I'm Watching</div>
+
+<div class="lane opportunity" data-lane="opp-delvin-saas">
+  <div class="lane-head">
+    <div>
+      <div class="lane-name">Delvin-as-a-Service<span class="note-dot" style="display:none"></span></div>
+      <div class="lane-status">NEW PRODUCT LINE</div>
+    </div>
+  </div>
+  <div class="lane-state">The Delvin chat widget + KB already answers food addiction questions 24/7. Same architecture sells to addiction treatment centers, sober living homes, and weight-loss clinics.</div>
+  <div class="lane-move">
+    <b>PROBLEM / WHO PAYS</b>
+    Addiction centers pay $2K-10K/mo for intake tools. Weight loss clinics lose patients between appointments. Delvin becomes their 2AM voice.
+    <br><br>
+    <b>HOW TO BUILD</b>
+    White-label Delvin on HonorElevate. $997/mo per facility. First case study: TLA community itself.
+  </div>
+  <div class="lane-money">
+    <div class="lane-money-label">Per Facility MRR</div>
+    <div class="lane-money-val">$997/mo</div>
+  </div>
+  <div class="lane-expand-hint">CLICK TO NOTE</div>
+</div>
+
+<div class="lane opportunity" data-lane="opp-scv-community-pack">
+  <div class="lane-head">
+    <div>
+      <div class="lane-name">SCV Community Pack<span class="note-dot" style="display:none"></span></div>
+      <div class="lane-status">AGENT LICENSE PLAY</div>
+    </div>
+  </div>
+  <div class="lane-state">You're building community.scv123.com for your listings. Every SCV agent wants the same thing for their city. License the template + technology stack.</div>
+  <div class="lane-move">
+    <b>PROBLEM / WHO PAYS</b>
+    SCV has 2,000+ agents. Most have no hyper-local digital presence. They'd pay $197/mo for community[CITY].seventeenk-lic.com with their branding.
+    <br><br>
+    <b>HOW TO BUILD</b>
+    Wrap the SCV123 template into a white-label SaaS inside HonorElevate. Sell to SYNC agents first as recruiting tool (the 8% commission hook).
+  </div>
+  <div class="lane-money">
+    <div class="lane-money-label">Per Agent MRR</div>
+    <div class="lane-money-val">$197/mo</div>
+  </div>
+  <div class="lane-expand-hint">CLICK TO NOTE</div>
+</div>
+
+<div class="lane opportunity" data-lane="opp-ticketwhisperer-lead">
+  <div class="lane-head">
+    <div>
+      <div class="lane-name">Ticket Fight Kit<span class="note-dot" style="display:none"></span></div>
+      <div class="lane-status">550K EYEBALLS WAITING</div>
+    </div>
+  </div>
+  <div class="lane-state">Ticket Whisperer has 550K views and no product. Every viewer just got a ticket. They want answers, not entertainment.</div>
+  <div class="lane-move">
+    <b>PROBLEM / WHO PAYS</b>
+    $29 "How I Would Fight This Ticket" PDF + legal script template. Upsell: $197 one-on-one review with Sergeant Joe Friday (your Tier 2 voice).
+    <br><br>
+    <b>HOW TO BUILD</b>
+    One PDF. One funnel. Stripe checkout. Joe Friday voice agent as the delivery mechanism. Could ship this week.
+  </div>
+  <div class="lane-money">
+    <div class="lane-money-label">Per Kit</div>
+    <div class="lane-money-val">$29 + $197</div>
+  </div>
+  <div class="lane-expand-hint">CLICK TO NOTE</div>
+</div>
+
+<div class="lane opportunity" data-lane="opp-scv-vendor-gate">
+  <div class="lane-head">
+    <div>
+      <div class="lane-name">SCV Vendor Gate<span class="note-dot" style="display:none"></span></div>
+      <div class="lane-status">27 YEARS OF RELATIONSHIPS</div>
+    </div>
+  </div>
+  <div class="lane-state">You've used the same plumbers, HVAC, electricians, roofers, painters, concrete guys for decades. The HVAC attack proves they need HonorElevate. That list becomes your gate.</div>
+  <div class="lane-move">
+    <b>PROBLEM / WHO PAYS</b>
+    Agents in SCV constantly ask other agents for vendor referrals. Connor becomes the vendor gate. Vendors pay $97/mo to be featured. Agents get free access.
+    <br><br>
+    <b>HOW TO BUILD</b>
+    vendors.scv123.com. HonorElevate nurture. Vendor pays to be on the list. Agent sees your brand every referral. Double-sided marketplace.
+  </div>
+  <div class="lane-money">
+    <div class="lane-money-label">Per Vendor MRR</div>
+    <div class="lane-money-val">$97/mo</div>
+  </div>
+  <div class="lane-expand-hint">CLICK TO NOTE</div>
+</div>
+
+<div class="lane opportunity" data-lane="opp-shosafe-video-saas">
+  <div class="lane-head">
+    <div>
+      <div class="lane-name">ShoSafe Training SaaS<span class="note-dot" style="display:none"></span></div>
+      <div class="lane-status">PRE-PRODUCT ENTRY</div>
+    </div>
+  </div>
+  <div class="lane-state">The 5-video ShoSafe series is training content. It becomes a $197 course BEFORE the product ships. Sell the course, build the list, then convert to SaaS when MVP is ready.</div>
+  <div class="lane-move">
+    <b>PROBLEM / WHO PAYS</b>
+    75,000 agents were crime victims in 2023. Brokerages need safety training for E&O compliance. $197/agent training course, bulk $2K per brokerage.
+    <br><br>
+    <b>HOW TO BUILD</b>
+    Film the 5 videos by September (NAR Safety Month). Host on HonorElevate course engine. Upsell ShoSafe SaaS on completion.
+  </div>
+  <div class="lane-money">
+    <div class="lane-money-label">Per Agent</div>
+    <div class="lane-money-val">$197 + upsell</div>
+  </div>
+  <div class="lane-expand-hint">CLICK TO NOTE</div>
+</div>
+
 <div class="links">
   <a href="https://app.netlify.com/teams/connorcoded/sites" target="_blank">Netlify</a>
   <a href="https://github.com/connorwithhonor" target="_blank">GitHub</a>
@@ -615,6 +967,7 @@ body::before {
   <a href="https://drive.google.com" target="_blank">Drive</a>
   <a href="https://thelastaddiction.com" target="_blank">TLA Live</a>
   <a href="https://whm-sandbox.connorcoded.com" target="_blank">WHM Sandbox</a>
+  <a href="https://sellersonlyagent.com" target="_blank">SOA Live</a>
   <a href="https://calendar.google.com" target="_blank">Calendar</a>
   <a href="https://github.com/connorwithhonor/mempalace" target="_blank">Mempalace</a>
 </div>
@@ -622,12 +975,33 @@ body::before {
 </div>
 
 <div class="footer">
-  CODED BY CONNOR WITH HONOR | AI GROWTH ARCHITECT | DATA UPDATES VIA MEMPALACE
+  <span class="mcp-tag">&lt;END OF LINE&gt;</span> &middot; CODED BY CONNOR WITH HONOR &middot; M.C.P v2
 </div>
 
+</div>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="modalTitle">LANE</div>
+      <button class="modal-close" onclick="closeModal()">x</button>
+    </div>
+    <div class="modal-body">
+      <div class="notes-list" id="notesList"></div>
+      <div class="note-input-wrap">
+        <textarea id="noteInput" placeholder="Type your note. Timestamp added automatically. Ctrl+Enter to save."></textarea>
+        <div class="note-actions">
+          <button class="btn btn-secondary" onclick="closeModal()">CANCEL</button>
+          <button class="btn btn-primary" onclick="saveNote()">SAVE NOTE</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
+// -------- CLOCK --------
 function tick() {
   const now = new Date();
   const start = new Date('2026-03-16T00:00:00');
@@ -642,12 +1016,191 @@ function tick() {
   const dateStr = parts[0].trim().toUpperCase();
   const timeStr = parts[1].trim();
   document.getElementById('clock').textContent = `${dateStr} | ${timeStr} PT | DAY ${diff}`;
-  document.querySelectorAll('.stat-value.green').forEach(el => {
-    if (el.textContent.startsWith('+')) el.textContent = `+${toLaunch}`;
-  });
+  document.getElementById('launchCounter').textContent = `+${toLaunch}`;
 }
 tick();
 setInterval(tick, 30000);
+
+// -------- LANE NOTES (localStorage) --------
+const STORAGE_KEY = 'mcp_notes_v1';
+let currentLane = null;
+let claudeMessages = [];
+let lastReadKey = 'mcp_last_read_v1';
+
+function getAllNotes() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+  catch(e) { return {}; }
+}
+function getNotes(laneKey) {
+  return getAllNotes()[laneKey] || [];
+}
+function saveAllNotes(notes) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
+}
+
+function openLane(laneKey, laneName) {
+  currentLane = laneKey;
+  document.getElementById('modalTitle').textContent = laneName;
+  renderNotes(laneKey);
+  document.getElementById('modal').classList.add('open');
+  setTimeout(() => document.getElementById('noteInput').focus(), 50);
+}
+
+function renderNotes(laneKey) {
+  const list = document.getElementById('notesList');
+  const notes = getNotes(laneKey);
+  const laneMessages = claudeMessages.filter(m => m.lane === laneKey);
+  const combined = [...notes.map(n => ({...n, from: 'connor'})), ...laneMessages.map(m => ({...m, from: 'claude'}))];
+  combined.sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp));
+  if (combined.length === 0) {
+    list.innerHTML = '<div style="color:var(--gray);font-size:12px;letter-spacing:2px;padding:20px;text-align:center;">NO NOTES YET. START TYPING BELOW.</div>';
+    return;
+  }
+  list.innerHTML = combined.map(n => `
+    <div class="note-entry ${n.from === 'claude' ? 'claude' : ''}">
+      <div class="note-entry-meta">
+        <span>${n.from === 'claude' ? 'CLAUDE' : 'CONNOR'} &middot; ${new Date(n.timestamp).toLocaleString('en-US', {timeZone: 'America/Los_Angeles', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'})}</span>
+        ${n.from === 'connor' ? `<span style="cursor:pointer;color:var(--gray)" onclick="deleteNote('${laneKey}', ${n.id})" title="delete">x</span>` : ''}
+      </div>
+      <div class="note-entry-body">${escapeHtml(n.body)}</div>
+    </div>
+  `).join('');
+  list.scrollTop = list.scrollHeight;
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[c]);
+}
+
+function saveNote() {
+  const input = document.getElementById('noteInput');
+  const body = input.value.trim();
+  if (!body || !currentLane) return;
+  const all = getAllNotes();
+  if (!all[currentLane]) all[currentLane] = [];
+  all[currentLane].push({
+    id: Date.now(),
+    timestamp: new Date().toISOString(),
+    body: body
+  });
+  saveAllNotes(all);
+  input.value = '';
+  renderNotes(currentLane);
+  updateNoteDots();
+}
+
+function deleteNote(laneKey, id) {
+  const all = getAllNotes();
+  if (!all[laneKey]) return;
+  all[laneKey] = all[laneKey].filter(n => n.id !== id);
+  saveAllNotes(all);
+  renderNotes(laneKey);
+  updateNoteDots();
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  currentLane = null;
+}
+
+function updateNoteDots() {
+  document.querySelectorAll('.lane[data-lane]').forEach(lane => {
+    const key = lane.getAttribute('data-lane');
+    const notes = getNotes(key);
+    const hasClaude = claudeMessages.some(m => m.lane === key);
+    const dot = lane.querySelector('.note-dot');
+    if (dot) dot.style.display = (notes.length > 0 || hasClaude) ? 'inline-block' : 'none';
+  });
+}
+
+// Wire up lane clicks
+document.querySelectorAll('.lane[data-lane]').forEach(lane => {
+  lane.addEventListener('click', (e) => {
+    // don't open if clicking a link inside
+    if (e.target.tagName === 'A') return;
+    const key = lane.getAttribute('data-lane');
+    const name = lane.querySelector('.lane-name').childNodes[0].textContent.trim();
+    openLane(key, name);
+  });
+});
+
+// Ctrl+Enter or Cmd+Enter to save
+document.getElementById('noteInput').addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    e.preventDefault();
+    saveNote();
+  }
+});
+document.getElementById('modal').addEventListener('click', (e) => {
+  if (e.target.id === 'modal') closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// -------- CLAUDE MESSAGES --------
+function loadClaudeMessages() {
+  fetch('/claude-messages.json?t=' + Date.now())
+    .then(r => r.ok ? r.json() : {messages: []})
+    .then(data => {
+      claudeMessages = data.messages || [];
+      const light = document.getElementById('claudeLight');
+      const lastRead = localStorage.getItem(lastReadKey) || '0';
+      const unread = claudeMessages.filter(m => new Date(m.timestamp) > new Date(parseInt(lastRead)));
+      if (unread.length > 0) {
+        light.classList.add('has-message');
+        light.textContent = `CLAUDE: ${unread.length} NEW`;
+      } else {
+        light.classList.remove('has-message');
+        light.textContent = `CLAUDE: ${claudeMessages.length}`;
+      }
+      updateNoteDots();
+    })
+    .catch(() => {});
+}
+function openClaudeMessages() {
+  const light = document.getElementById('claudeLight');
+  localStorage.setItem(lastReadKey, Date.now().toString());
+  light.classList.remove('has-message');
+  light.textContent = `CLAUDE: ${claudeMessages.length}`;
+  // Show a general-messages modal (uses the lane modal with special key)
+  currentLane = '_claude_broadcast';
+  document.getElementById('modalTitle').textContent = 'MESSAGES FROM CLAUDE';
+  const list = document.getElementById('notesList');
+  if (claudeMessages.length === 0) {
+    list.innerHTML = '<div style="color:var(--gray);font-size:12px;padding:20px;text-align:center;">NO MESSAGES YET.</div>';
+  } else {
+    const sorted = [...claudeMessages].sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
+    list.innerHTML = sorted.map(m => `
+      <div class="note-entry claude">
+        <div class="note-entry-meta">
+          <span>CLAUDE${m.lane ? ' / ' + m.lane.toUpperCase() : ''} &middot; ${new Date(m.timestamp).toLocaleString('en-US', {timeZone: 'America/Los_Angeles', month:'short', day:'numeric', hour:'2-digit', minute:'2-digit'})}</span>
+        </div>
+        <div class="note-entry-body">${escapeHtml(m.body)}</div>
+      </div>
+    `).join('');
+  }
+  document.getElementById('modal').classList.add('open');
+}
+loadClaudeMessages();
+setInterval(loadClaudeMessages, 60000);
+
+// -------- ATTENTION PULSE (occasional, not incessant) --------
+// Every 4-7 minutes, pulse one random revenue lane for 2.5s
+function attentionPulse() {
+  const lanes = document.querySelectorAll('.lane[data-lane]');
+  if (lanes.length === 0) return;
+  const target = lanes[Math.floor(Math.random() * lanes.length)];
+  target.classList.add('attention-pulse');
+  setTimeout(() => target.classList.remove('attention-pulse'), 2600);
+}
+function schedulePulse() {
+  const delay = (4 + Math.random() * 3) * 60 * 1000; // 4-7 min
+  setTimeout(() => { attentionPulse(); schedulePulse(); }, delay);
+}
+setTimeout(schedulePulse, 60000); // first pulse after 1 min
+
+updateNoteDots();
 </script>
 
 </body>
