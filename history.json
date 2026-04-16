@@ -1,0 +1,56 @@
+{
+  "updated": "2026-04-16T10:30:00-07:00",
+  "history": {
+    "scv123": [
+      {"date": "2026-04-16", "session": "MCP build", "body": "Connor clarified the real estate brand hierarchy. SCV123 is the PRIMARY consumer-facing campaign. Community subdomains (bridgeport, valencia, summit, creekside) are what go on XpressDocs mailers. Tagline: 'Selling your house is as easy as SCV 123.' SeventeenK is the pricing proof. SOA is the authority click. Not three separate businesses. One machine with three roles."}
+    ],
+    "seventeenk": [
+      {"date": "2026-04-16", "session": "MCP build", "body": "Correction logged: $17K is a FIXED fee, never 'flat' fee. Terminology matters in real estate legal context. Stealth until 5/17 reveal on Connor's 57th birthday. No listings, no numbers, no RE language publicly. Only #SeventeenK hashtag until reveal."}
+    ],
+    "soa": [
+      {"date": "2026-04-15", "session": "infrastructure setup", "body": "Site audited. Discovered dead email address: connor@sellersonlyagents.com (plural AGENTS) across 9 places in index.html, privacy.html, terms.html. Also found em dashes violating Connor's voice rules. Duplicate OG image tags. Site loading but wasn't 'shipped' per Connor."},
+      {"date": "2026-04-16", "session": "MCP build", "body": "SHIPPED. Fixed the typo to connor@sellersonlyagent.com (Zoho catchall picks it up). Removed all em dashes. Consolidated OG images to single /og-image.png. Deployed to production. Site is live and working."}
+    ],
+    "honorelevate-attack": [
+      {"date": "2026-04-10", "session": "HonorElevate Playbook (Drive)", "body": "76K-word sales playbook documented in Google Drive. Target verticals ordered: HVAC > Plumbing > Dental > Roofing > Auto Repair > Med Spa. Pricing locked: $297 Starter / $697 Growth (ANCHOR) / $1,497 Dominate / $4,997 Growth Partner. Setup fees separate."},
+      {"date": "2026-04-16", "session": "MCP build", "body": "Competitor research complete. Jason Wardrop runs free $297 AI Starter Kit as lead magnet. Robb Bailey partnered with HighLevel on 'Agency Unlimited' offer. Kyle Milan focuses industrial B2B, not GHL-specific. Liam James Kay no direct hits. Insight: every top GHL voice teaches OTHER AGENCIES. Connor's gap is going DIRECT to local SCV trades with 27-year vendor relationships."}
+    ],
+    "withheart": [
+      {"date": "2026-04-13", "session": "proposed changes email", "body": "First 3 changes proposed to Talie: schema update, hero overlay 'Brand & Marketing Consultant,' DIY workbook CTA swap to Stripe. Talie responded: schema yes, hero needs title case not all caps, workbook CTA stays 'Get' not 'Buy,' asked for more space on Stripe page."},
+      {"date": "2026-04-14", "session": "sandbox build", "body": "Sandbox built at whm-sandbox.connorcoded.com with 4 approved changes. Schema expanded with 14 keyword variations. Hero title case. Workbook button to Stripe. FAQ updated with 'As a brand and marketing consultant' prefix."},
+      {"date": "2026-04-15", "session": "Talie approval email", "body": "Talie replied: 'Awesome! Notes in red.' Approved all 4. Only remaining item: add delivery note to Stripe checkout page itself about 24hr email delivery + add talie@withheart-marketing.com to contacts. Connor updated GHL page same day."},
+      {"date": "2026-04-16", "session": "MCP build", "body": "Email draft to Talie announcing all changes shipped sits in Gmail. Waiting for Gmail tool reload to verify send status. Once she gives green light, push sandbox to withheart-marketing.com live."}
+    ],
+    "tla": [
+      {"date": "2026-03-16", "session": "Fast 1 kickoff", "body": "Day 1 overall. 317.2 lbs. Water fast began. TheLastAddiction.com concept locked. 63-day journey to Day 63 (May 18) monetization launch."},
+      {"date": "2026-04-13", "session": "Fast 4 kickoff / 57th birthday", "body": "Connor's 57th birthday. After 3 broken fasts and 'The Abyss' period of no-weigh-ins, Fast 4 started at 310.9. Framed as 'Three Birthdays' (body / soul / body reborn)."},
+      {"date": "2026-04-15", "session": "Day 3 The Two Started", "body": "Day 3 / Fast 4 Day 3. 303.4 lbs. 'Three Birthdays' Day page shipped. Delvin AI chat widget deployed on all 17 TLA pages (widget ID 69e02d7a25604d8db1fb48b6). 23 internal cross-links injected across 10 blog posts."},
+      {"date": "2026-04-16", "session": "Day 4 The Two Started", "body": "299.1 lbs. First 2 on the scale in years. Broke the 300 barrier. Target reframed from Day 41 to Day 42 (Hitchhiker's Guide 'answer to life, the universe, and everything'). Signature line banked: 'I am eating the best, most healthy foods from my body now. Nothing compares. That is why I stored it.'"}
+    ],
+    "shosafe": [
+      {"date": "2026-04-11", "session": "ShoSafe Palace File", "body": "997-line palace file locked in Google Drive. Full product vision documented. Marketing site live at shosafe.com with dark premium aesthetic. IMMEDIATE ACTION PENDING: Formspree ID still placeholder (xplaceholder) means waitlist doesn't capture emails. 5-video series planned for NAR Safety Month (September) launch."},
+      {"date": "2026-04-15", "session": "infrastructure setup", "body": "Palace file (997 lines) copied into mempalace repo at projects/shosafe.md. Product tiers locked: Verify $29/mo, Shield $79/mo, Command $149/mo per brokerage. Duress code, Silent Witness Mode, evidence distribution protocol all designed."}
+    ],
+    "honorelevate-clients": [
+      {"date": "2026-04-16", "session": "MCP restructure", "body": "Connor confirmed active paying clients: Talie Knutson (WithHeart Marketing), Mike Meena (Augusta Financial), Marcela [Slavik/Cohen], Julie Hielman (Hittleman Health). Per HE playbook, also historically: Motto Mortgage, Nicole Raach, Realty ONE Group Success. Each has a dedicated HonorElevate subaccount that is SACRED (never touched by attack pipeline)."}
+    ],
+    "dailydownload": [
+      {"date": "2026-04-01", "session": "ongoing", "body": "Daily AI news show. 3K-word teleprompter per episode. Trinity structure: fat loss / AI / real estate. Benchmarks: Wes Roth (~305K subs), Matt Wolfe. Differentiator: Connor deploys AI in real businesses, not commentary. Sources from AI-Intel Gmail label."}
+    ],
+    "ticketwhisperer": [
+      {"date": "ongoing", "session": "YouTube channel", "body": "550K+ total views. AI persona: Sergeant Joe Friday. TikTok: @TicketWhisperer. $97/mo course + $497 consult already live in GHL. Focus: trial by declarations for California tickets. Untapped: weekly Shorts cadence, lead magnet PDF, automation hooks into HonorElevate CRM."}
+    ],
+    "aips": [
+      {"date": "ongoing", "session": "AIPropertySite", "body": "5 themes (Victoria, Aria, Grace, Rex, Kai). Currently positioned for sellers. Connor notes it COULD also be sold to agents as a product. Decision pending. $297 one-time + $97/mo after 90 days. Feeds HonorElevate retainers via trojan horse."}
+    ],
+    "zoneshift": [
+      {"date": "2026-04-20", "session": "scheduled meeting", "body": "Founder conversation resumes April 20, 2026. Parked until then. Netlify site live. Hero: 'Your Calendar Has No Idea Where You Are.' Pre-tiered pricing sketched (Solo, Pro, Enterprise)."}
+    ],
+    "scvreviews": [
+      {"date": "ongoing", "session": "reputation management vertical", "body": "B2B reputation management. Dental offices first vertical. Pricing: $500 paid audit, $1,500 setup, $297/mo Reputation Engine, $497/mo Full Automation. Mirrors HonorElevate attack model with different offer. Can piggyback the HVAC outbound infrastructure."}
+    ],
+    "hireaivoice": [
+      {"date": "ongoing", "session": "voice AI service", "body": "Core agent: Sarah. Demo on SCVbot.com (Shorts) + scvbots.com (pricing/sales). Onboarding $497 + $197/mo. Per honor-attack-pipeline rules: NEVER sell standalone. Always bundle as 24/7 system. Live inside the Dominate tier ($1,497/mo) of HonorElevate."}
+    ]
+  }
+}
