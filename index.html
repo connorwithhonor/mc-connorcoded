@@ -232,6 +232,131 @@ body::after {
   color: var(--red);
 }
 
+/* BROADCAST CHECKBOX */
+.broadcast-check {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--gray-dim);
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.4);
+  transition: all 0.2s;
+  user-select: none;
+  font-size: 14px;
+  font-weight: 800;
+  color: transparent;
+}
+.broadcast-check:hover {
+  border-color: var(--green);
+  box-shadow: 0 0 8px rgba(51,255,136,0.3);
+}
+.broadcast-check.checked {
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--bg);
+  box-shadow: 0 0 10px rgba(51,255,136,0.5);
+}
+.entry.claude.read {
+  opacity: 0.45;
+}
+.entry.claude {
+  position: relative;
+  padding-right: 44px;
+}
+
+/* REPLY SYSTEM */
+.reply-section {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--gray-dim);
+}
+.reply-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.reply-section-head h4 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: var(--cyan);
+  text-transform: uppercase;
+}
+.reply-count {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--gray);
+  padding: 3px 8px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 2px;
+}
+.reply-count.has-replies {
+  color: var(--cyan);
+  border: 1px solid var(--cyan-dim);
+}
+.reply-list {
+  max-height: 180px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+}
+.reply-entry {
+  padding: 8px 12px;
+  background: rgba(0,212,255,0.04);
+  border-left: 2px solid var(--cyan);
+  margin-bottom: 8px;
+  border-radius: 2px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--white);
+  position: relative;
+  padding-right: 36px;
+}
+.reply-entry-meta {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--cyan);
+  margin-bottom: 4px;
+}
+.reply-delete {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--gray-dim);
+  background: rgba(0,0,0,0.3);
+  color: var(--gray);
+  cursor: pointer;
+  font-size: 11px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.reply-delete:hover { border-color: var(--red); color: var(--red); }
+.copy-replies-btn {
+  padding: 7px 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  border-radius: 2px;
+  text-transform: uppercase;
+  background: transparent;
+  color: var(--cyan);
+  border: 1px solid var(--cyan-dim);
+  transition: all 0.2s;
+}
+.copy-replies-btn:hover { background: var(--cyan-dim); color: var(--white); }
+.copy-replies-btn.copied { background: var(--green); color: var(--bg); border-color: var(--green); }
+
 .grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; }
 
 .section-label {
@@ -569,20 +694,20 @@ body::after {
 
 <!-- COUNTDOWN STRIP -->
 <div class="countdown-strip">
-  <div class="countdown-card reveal">
-    <div class="countdown-label">SeventeenK Reveal</div>
-    <div class="countdown-value" id="cdReveal"><span class="days">0</span><span class="unit">days</span></div>
-    <div class="countdown-date">May 17, 2026 / 57th birthday</div>
-  </div>
   <div class="countdown-card launch">
-    <div class="countdown-label">TLA Launch</div>
+    <div class="countdown-label">TLA Reveal / Launch</div>
     <div class="countdown-value" id="cdLaunch"><span class="days">0</span><span class="unit">days</span></div>
-    <div class="countdown-date">May 18, 2026 / Day 63</div>
+    <div class="countdown-date">May 18, 2026 / Day 63 / post-fast reveal</div>
+  </div>
+  <div class="countdown-card reveal">
+    <div class="countdown-label">57th Birthday / $17K Page Public</div>
+    <div class="countdown-value" id="cdReveal"><span class="days">0</span><span class="unit">days</span></div>
+    <div class="countdown-date">May 17, 2026</div>
   </div>
   <div class="countdown-card fortytwo">
-    <div class="countdown-label">Day 42 Target</div>
+    <div class="countdown-label">Day 42 Target (265 lbs)</div>
     <div class="countdown-value" id="cd42"><span class="days">0</span><span class="unit">days</span></div>
-    <div class="countdown-date">May 24, 2026 / 265 lbs</div>
+    <div class="countdown-date">May 24, 2026 / Fast 4 complete</div>
   </div>
   <div class="countdown-card checkpoint">
     <div class="countdown-label">Day 12 Ego Checkpoint</div>
@@ -625,16 +750,16 @@ body::after {
 <div class="lane shipping" data-lane="seventeenk">
   <div class="lane-head">
     <div>
-      <div class="lane-name">SeventeenK<span class="note-dot" style="display:none"></span></div>
-      <div class="lane-status">STEALTH 5/17</div>
+      <div class="lane-name">SeventeenK $17K Page<span class="note-dot" style="display:none"></span></div>
+      <div class="lane-status">SCV123 PRICING LANDING</div>
     </div>
   </div>
-  <div class="lane-state">Fixed fee of $17,000. Not "flat." "Fixed." The pricing receipt that makes SCV123 + SOA believable.</div>
-  <div class="lane-move"><b>NEXT MOVE</b>30 stealth content pieces. #SeventeenK only. Curiosity engine until Connor's 57th birthday reveal.</div>
+  <div class="lane-state">seventeenk.com is the $17,000 fixed-fee pricing landing page under the SCV123 campaign. Stealth until 5/17. Not a standalone brand. The pricing receipt that makes SCV123 and SOA believable.</div>
+  <div class="lane-move"><b>NEXT MOVE</b>30 stealth #SeventeenK content pieces. No listings, no RE language. Goes public 5/17 as companion to SCV123 campaign.</div>
   <div class="lane-money"><div class="lane-money-label">Per Deal</div><div class="lane-money-val">$17,000 fixed</div></div>
   <div class="lane-actions" onclick="event.stopPropagation()">
     <a class="lane-action primary" href="https://seventeenk.com" target="_blank">STEALTH SITE</a>
-    <a class="lane-action" href="https://app.netlify.com/projects/seventeenk" target="_blank">NETLIFY</a>
+    <a class="lane-action" href="https://scv123.com" target="_blank">SCV123</a>
   </div>
 </div>
 
@@ -1208,25 +1333,160 @@ document.getElementById('modal').addEventListener('click', (e) => {
 });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
-// CLAUDE MESSAGES
+// CLAUDE MESSAGES (checkbox-based read state)
+const BROADCAST_READ_KEY = 'mcp_broadcast_read_v4';
+const CLAUDE_REPLIES_KEY = 'mcp_claude_replies_v4';
+function getReadBroadcasts() {
+  try { return JSON.parse(localStorage.getItem(BROADCAST_READ_KEY) || '[]'); }
+  catch(e) { return []; }
+}
+function saveReadBroadcasts(list) { localStorage.setItem(BROADCAST_READ_KEY, JSON.stringify(list)); }
+function getReplies() {
+  try { return JSON.parse(localStorage.getItem(CLAUDE_REPLIES_KEY) || '[]'); }
+  catch(e) { return []; }
+}
+function saveReplies(list) { localStorage.setItem(CLAUDE_REPLIES_KEY, JSON.stringify(list)); }
+
+function updateClaudeLight() {
+  const light = document.getElementById('claudeLight');
+  const read = new Set(getReadBroadcasts());
+  const broadcasts = claudeMessages.filter(m => !m.lane);
+  const unread = broadcasts.filter(m => !read.has(m.timestamp));
+  const replies = getReplies();
+  if (unread.length > 0) {
+    light.classList.add('has-message');
+    light.textContent = `CLAUDE: ${unread.length} NEW`;
+  } else {
+    light.classList.remove('has-message');
+    const replyTag = replies.length > 0 ? ` / ${replies.length} REPLIES` : '';
+    light.textContent = `CLAUDE: ${broadcasts.length}${replyTag}`;
+  }
+}
+
 function loadClaudeMessages() {
-  fetch('/claude-messages.json?t=' + Date.now())
-    .then(r => r.ok ? r.json() : {messages: []})
+  const bust = '?t=' + Date.now();
+  fetch('/api/claude-broadcast' + bust, { cache: 'no-store' })
+    .then(r => r.ok ? r.json() : null)
     .then(data => {
-      claudeMessages = data.messages || [];
-      const light = document.getElementById('claudeLight');
-      const lastRead = localStorage.getItem(lastReadKey) || '0';
-      const unread = claudeMessages.filter(m => new Date(m.timestamp) > new Date(parseInt(lastRead)));
-      if (unread.length > 0) {
-        light.classList.add('has-message');
-        light.textContent = `CLAUDE: ${unread.length} NEW`;
-      } else {
-        light.classList.remove('has-message');
-        light.textContent = `CLAUDE: ${claudeMessages.length}`;
-      }
+      if (data && Array.isArray(data.messages)) return data;
+      return fetch('/claude-messages.json' + bust).then(r => r.ok ? r.json() : {messages: []});
+    })
+    .then(data => {
+      claudeMessages = (data && data.messages) || [];
+      updateClaudeLight();
       updateNoteDots();
     })
     .catch(() => {});
+}
+
+function toggleBroadcastRead(timestamp) {
+  const read = getReadBroadcasts();
+  const idx = read.indexOf(timestamp);
+  if (idx >= 0) read.splice(idx, 1);
+  else read.push(timestamp);
+  saveReadBroadcasts(read);
+  updateClaudeLight();
+  // Re-render the broadcast view
+  renderBroadcastView();
+}
+
+function saveReply() {
+  const input = document.getElementById('replyInput');
+  const body = input.value.trim();
+  if (!body) return;
+  const replies = getReplies();
+  replies.push({
+    id: Date.now(),
+    timestamp: new Date().toISOString(),
+    body
+  });
+  saveReplies(replies);
+  input.value = '';
+  renderBroadcastView();
+  updateClaudeLight();
+}
+
+function deleteReply(id) {
+  const replies = getReplies().filter(r => r.id !== id);
+  saveReplies(replies);
+  renderBroadcastView();
+  updateClaudeLight();
+}
+
+function copyAllReplies() {
+  const replies = getReplies();
+  if (replies.length === 0) return;
+  const text = replies
+    .sort((a,b) => new Date(a.timestamp) - new Date(b.timestamp))
+    .map(r => `[${fmtDate(r.timestamp)}] ${r.body}`)
+    .join('\n\n');
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyRepliesBtn');
+    btn.textContent = 'COPIED';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = `COPY ALL ${replies.length} REPLIES FOR CLAUDE`;
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+
+function renderBroadcastView() {
+  const broadcasts = claudeMessages.filter(m => !m.lane);
+  const read = new Set(getReadBroadcasts());
+  const replies = getReplies();
+  const claudeList = document.getElementById('claudeList');
+  const broadcastHTML = broadcasts.length === 0
+    ? '<div style="color:var(--gray);font-size:12px;padding:20px;text-align:center;">NO BROADCASTS YET.</div>'
+    : [...broadcasts].sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp)).map(m => {
+        const isRead = read.has(m.timestamp);
+        return `
+          <div class="entry claude ${isRead ? 'read' : ''}">
+            <div class="broadcast-check ${isRead ? 'checked' : ''}" onclick="toggleBroadcastRead('${m.timestamp}')" title="${isRead ? 'Mark unread' : 'Mark read'}">${isRead ? '✓' : ''}</div>
+            <div class="entry-meta"><span>BROADCAST &middot; ${fmtDate(m.timestamp)}</span></div>
+            <div class="entry-body">${escapeHtml(m.body)}</div>
+          </div>
+        `;
+      }).join('');
+
+  const replyHTML = `
+    <div class="reply-section">
+      <div class="reply-section-head">
+        <h4>Your Replies to Claude</h4>
+        <span class="reply-count ${replies.length > 0 ? 'has-replies' : ''}">${replies.length} SAVED</span>
+      </div>
+      ${replies.length === 0 ? '' : `
+        <div class="reply-list">
+          ${[...replies].sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp)).map(r => `
+            <div class="reply-entry">
+              <button class="reply-delete" onclick="deleteReply(${r.id})" title="delete">x</button>
+              <div class="reply-entry-meta">${fmtDate(r.timestamp)}</div>
+              <div>${escapeHtml(r.body)}</div>
+            </div>
+          `).join('')}
+        </div>
+      `}
+      <div class="note-input-wrap">
+        <textarea id="replyInput" placeholder="Type a reply for Claude. Saves locally. Click 'Copy' to paste into the next session. Ctrl+Enter to save."></textarea>
+        <div class="note-actions">
+          <button class="copy-replies-btn" id="copyRepliesBtn" onclick="copyAllReplies()" ${replies.length === 0 ? 'disabled' : ''}>COPY ALL ${replies.length} REPLIES FOR CLAUDE</button>
+          <button class="btn btn-primary" onclick="saveReply()">SAVE REPLY</button>
+        </div>
+      </div>
+    </div>
+  `;
+  claudeList.innerHTML = broadcastHTML + replyHTML;
+
+  // Wire ctrl+enter on reply input
+  const replyInput = document.getElementById('replyInput');
+  if (replyInput) {
+    replyInput.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        e.preventDefault();
+        saveReply();
+      }
+    });
+  }
 }
 
 function loadHistory() {
@@ -1240,10 +1500,6 @@ function loadHistory() {
 }
 
 function openClaudeMessages() {
-  const light = document.getElementById('claudeLight');
-  localStorage.setItem(lastReadKey, Date.now().toString());
-  light.classList.remove('has-message');
-  light.textContent = `CLAUDE: ${claudeMessages.length}`;
   currentLane = '_claude_broadcast';
   currentLaneName = 'BROADCAST FROM CLAUDE';
   document.getElementById('modalTitle').textContent = 'BROADCAST FROM CLAUDE';
@@ -1251,19 +1507,8 @@ function openClaudeMessages() {
   document.getElementById('notesBadge').textContent = 0;
   document.getElementById('claudeBadge').textContent = broadcasts.length;
   document.getElementById('historyBadge').textContent = 0;
-  const claudeList = document.getElementById('claudeList');
-  if (broadcasts.length === 0) {
-    claudeList.innerHTML = '<div style="color:var(--gray);font-size:12px;padding:20px;text-align:center;">NO BROADCASTS YET.</div>';
-  } else {
-    const sorted = [...broadcasts].sort((a,b) => new Date(b.timestamp) - new Date(a.timestamp));
-    claudeList.innerHTML = sorted.map(m => `
-      <div class="entry claude">
-        <div class="entry-meta"><span>BROADCAST &middot; ${fmtDate(m.timestamp)}</span></div>
-        <div class="entry-body">${escapeHtml(m.body)}</div>
-      </div>
-    `).join('');
-  }
-  document.getElementById('notesList').innerHTML = '<div style="color:var(--gray);font-size:12px;padding:20px;text-align:center;">BROADCASTS ARE READ-ONLY. CLICK A LANE FOR PER-LANE NOTES.</div>';
+  renderBroadcastView();
+  document.getElementById('notesList').innerHTML = '<div style="color:var(--gray);font-size:12px;padding:20px;text-align:center;">BROADCASTS ARE IN THE CLAUDE TAB. CLICK A LANE FOR PER-LANE NOTES.</div>';
   document.getElementById('historyList').innerHTML = '<div style="color:var(--gray);font-size:12px;padding:20px;text-align:center;">OPEN A SPECIFIC LANE FOR HISTORY.</div>';
   switchTab('claude');
   document.getElementById('modal').classList.add('open');
