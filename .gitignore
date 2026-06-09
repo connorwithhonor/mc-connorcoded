@@ -1,1 +1,5 @@
 _archive/
+
+# Local Netlify folder
+.netlify
+node_modules/
