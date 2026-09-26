@@ -3,3 +3,8 @@ _archive/
 # Local Netlify folder
 .netlify
 node_modules/
+
+# Control room generated assets and private local evidence
+hosted-control/public/assets/
+hosted-control/private/
+node_modules/
