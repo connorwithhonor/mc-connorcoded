@@ -11,9 +11,9 @@ export function createHandler({getUser, readSnapshot}) {
     if(!user.confirmedAt || !Array.isArray(user.roles) || !user.roles.includes('control-owner')) return json({error:'This account has not been granted control-room access.'},403);
     try {
       const snapshot=await readSnapshot();
-      if(!snapshot) return json({error:'No verified snapshot has been connected yet.'},503);
-      if(!validSnapshot(snapshot)) return json({error:'Snapshot format is invalid. Status is unknown.'},503);
+      if(!snapshot) return json({authorized:true,error:'Signed in. The first business-data connection is still pending.'},503);
+      if(!validSnapshot(snapshot)) return json({authorized:true,error:'Snapshot format is invalid. Status is unknown.'},503);
       return json(snapshot);
-    } catch { return json({error:'Status source unavailable. Nothing has been changed.'},503); }
+    } catch { return json({authorized:true,error:'Status source unavailable. Nothing has been changed.'},503); }
   };
 }

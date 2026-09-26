@@ -41,3 +41,8 @@ Do not add `--prod`. The isolated preview intentionally excludes the existing co
 7. Connect Claude's actual ranking feed and verify the existing authenticated Mesh with harmless jobs before enabling any remote recovery, scheduling or agent dispatch. These are separate from the read-only access gate. Do not claim that requests reach an open Codex conversation automatically.
 
 No DNS, Identity, permissions, credentials, paid service, send/call, ledger action, production site or public machine exposure was changed by the preview.
+
+## September 26 access setup and focused overview
+Connor said “go for it” after the explicit invite-only proposal. Identity is now enabled, Invite only, email confirmation required; connormacivor@gmail.com is the sole invited user with the server-controlled control-owner role. No password was entered by the agent. No business data uploaded. The default email points to the preserved old cockpit; use “First visit? Set up your invitation” in the new preview to paste that same-project link locally and set a password. Tokens are never logged or fetched from arbitrary URLs. Owner login remains unverified until Connor completes it.
+
+The local review now reads existing deck records on each refresh when launched with an additional `/Users/macv/dev/macv-deck` argument. The top row shows blocked stages, historical failed checks and open operations; working local controls are linked only after the local service responds. Recommended focus cards have expandable outcomes/proof. This is still read-only hosting; remote writes and recurring hosted uploads remain unconnected.

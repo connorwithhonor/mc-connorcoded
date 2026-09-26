@@ -2,11 +2,12 @@
 import http from 'node:http';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {readLocalSources} from '../lib/local-source.mjs';
 import {createHandler} from '../lib/handler.mjs';
-const [snapshotPath,mode] = process.argv.slice(2);
+const [snapshotPath,mode,deck] = process.argv.slice(2);
 if(!snapshotPath || !['--review','--locked'].includes(mode))throw Error('Provide private snapshot path and --review or --locked.');
 const root=path.resolve('hosted-control/public');
-const handler=createHandler({getUser:async()=>mode==='--review'?{id:'local-review',confirmedAt:'local',roles:['control-owner']}:null,readSnapshot:async()=>JSON.parse(await fs.readFile(snapshotPath,'utf8'))});
+const handler=createHandler({getUser:async()=>mode==='--review'?{id:'local-review',confirmedAt:'local',roles:['control-owner']}:null,readSnapshot:async()=>deck?readLocalSources(deck):JSON.parse(await fs.readFile(snapshotPath,'utf8'))});
 http.createServer(async(req,res)=>{
  if(!['127.0.0.1:7881','localhost:7881'].includes(req.headers.host)){res.writeHead(403);res.end();return;}
  const url=new URL(req.url,'http://127.0.0.1:7881');
