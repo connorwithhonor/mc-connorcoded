@@ -46,3 +46,11 @@ No DNS, Identity, permissions, credentials, paid service, send/call, ledger acti
 Connor said “go for it” after the explicit invite-only proposal. Identity is now enabled, Invite only, email confirmation required; connormacivor@gmail.com is the sole invited user with the server-controlled control-owner role. No password was entered by the agent. No business data uploaded. The default email points to the preserved old cockpit; use “First visit? Set up your invitation” in the new preview to paste that same-project link locally and set a password. Tokens are never logged or fetched from arbitrary URLs. Owner login remains unverified until Connor completes it.
 
 The local review now reads existing deck records on each refresh when launched with an additional `/Users/macv/dev/macv-deck` argument. The top row shows blocked stages, historical failed checks and open operations; working local controls are linked only after the local service responds. Recommended focus cards have expandable outcomes/proof. This is still read-only hosting; remote writes and recurring hosted uploads remain unconnected.
+
+## Lead Inbox data contract
+
+The Lead Inbox is a private, read-only view of an additive `leadInbox` field in the selected snapshot. It displays source-health records and normalized incoming events only after an authenticated publisher writes the snapshot. An empty or missing feed is visibly `Not connected`; it is never treated as proof that no one contacted Connor.
+
+Each source record carries its name, type, current state, last observed time, short evidence detail and next check. Each event carries a stable event ID, source and business, timestamp, event type, supplied contact fields, relevant message, likely intent, review status and an optional HTTPS CRM contact URL. The viewer makes no changes to Gmail, HonorElevate, Formspree, Cloudflare, a contact record or an event status.
+
+The current Cloudflare lead relay does not retain an event history. Before live event ingestion, add a dedicated authenticated publisher path and a separate secret shared only by that publisher and the private Control Room. Do not place the secret, raw webhooks, credentials, or full provider records in the browser or Git. Verify every channel's delivery and the private owner readback before treating this as a live inbox.
