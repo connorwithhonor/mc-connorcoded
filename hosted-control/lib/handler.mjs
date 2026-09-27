@@ -1,7 +1,8 @@
 import { validSnapshot } from './snapshot.mjs';
+import { normalizeLeadInbox } from './lead-inbox.mjs';
 const headers = {'Cache-Control':'private, no-store, max-age=0','Netlify-CDN-Cache-Control':'no-store','Vary':'Cookie, Authorization','X-Content-Type-Options':'nosniff'};
 const json = (value, status=200) => Response.json(value, {status,headers});
-export function createHandler({getUser, readSnapshot}) {
+export function createHandler({getUser, readSnapshot, readLeadInbox = async () => null}) {
   return async request => {
     if(request.method !== 'GET') return json({error:'This release is read-only. No request was queued.'},405);
     let user;
@@ -13,6 +14,9 @@ export function createHandler({getUser, readSnapshot}) {
       const snapshot=await readSnapshot();
       if(!snapshot) return json({authorized:true,error:'Signed in. The first business-data connection is still pending.'},503);
       if(!validSnapshot(snapshot)) return json({authorized:true,error:'Snapshot format is invalid. Status is unknown.'},503);
+      let leadInbox = null;
+      try { leadInbox = normalizeLeadInbox(await readLeadInbox()); } catch { leadInbox = null; }
+      if(leadInbox) snapshot.leadInbox = leadInbox;
       return json(snapshot);
     } catch { return json({authorized:true,error:'Status source unavailable. Nothing has been changed.'},503); }
   };
