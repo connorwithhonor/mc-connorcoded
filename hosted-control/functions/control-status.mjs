@@ -6,6 +6,7 @@ const leadInbox = () => getStore({name:'control-room-lead-inbox',consistency:'st
 export default createHandler({
   getUser,
   readSnapshot: () => snapshots().get('current',{type:'json'}),
-  readLeadInbox: () => leadInbox().get('current',{type:'json'})
+  readLeadInbox: () => leadInbox().get('current',{type:'json'}),
+  readLeadInboxBaseline: () => leadInbox().get('baseline',{type:'json'})
 });
 export const config = {path:'/api/control-status'};

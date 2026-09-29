@@ -11,6 +11,12 @@ test('owner only receives a validated lead inbox store record',async()=>{
  const r=await createHandler({getUser:async()=>owner,readSnapshot:async()=>sample(),readLeadInbox:async()=>({...inboxPayload,events:[{...inboxPayload.events[0],rawPayload:'SECRET'}]})})(request());
  const body=await r.json(); assert.equal(body.leadInbox.events[0].rawPayload,undefined); assert.doesNotMatch(JSON.stringify(body),/SECRET/);
 });
+test('owner receives channel-health baseline without replacing genuine relay events',async()=>{
+ const baseline={...inboxPayload,observedAt:'2026-09-28T00:00:00Z',sources:[{...inboxPayload.sources[0],state:'blocked'},{id:'forms',name:'Website forms',kind:'form',state:'not_connected',observedAt:'2026-09-28T00:00:00Z',detail:'No publisher',nextStep:'Connect it'}],events:[]};
+ const live={...inboxPayload,sources:[{...inboxPayload.sources[0],state:'healthy',observedAt:'2026-09-28T01:00:00Z'}]};
+ const r=await createHandler({getUser:async()=>owner,readSnapshot:async()=>sample(),readLeadInbox:async()=>live,readLeadInboxBaseline:async()=>baseline})(request());
+ const body=await r.json(); assert.equal(body.leadInbox.sources.length,2); assert.equal(body.leadInbox.sources.find(source=>source.id==='gmail').state,'healthy'); assert.equal(body.leadInbox.events.length,1);
+});
 test('all writes fail before storage',async()=>{for(const method of ['POST','PUT','DELETE','PATCH']){const r=await createHandler({getUser:async()=>{throw Error('should not read');},readSnapshot:async()=>{throw Error('should not read');}})(request(method));assert.equal(r.status,405);}});
 test('missing or invalid storage is unknown, never an empty healthy board',async()=>{for(const snapshot of [null,{}, {schemaVersion:1}]){const r=await createHandler({getUser:async()=>owner,readSnapshot:async()=>snapshot})(request());assert.equal(r.status,503);}});
 test('storage and auth exceptions do not leak secrets',async()=>{for(const authFailure of [true,false]){const r=await createHandler({getUser:async()=>{if(authFailure)throw Error('SECRET');return owner;},readSnapshot:async()=>{throw Error('SECRET');}})(request());assert.ok([401,503].includes(r.status));assert.doesNotMatch(await r.text(),/SECRET/);}});
